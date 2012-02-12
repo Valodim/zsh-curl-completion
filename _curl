@@ -9,6 +9,8 @@ _curl_crypto_engine() {
     _describe -t outputs 'engines' vals && return 0
 }
 
+local arg_http arg_ftp arg_other arg_proxy arg_crypto arg_connection arg_auth arg_input arg_output
+
 # HTTP Arguments
 arg_http=(''\
   {-0,--http1.0}'[force use of use http 1.0 instead of 1.1]' \
