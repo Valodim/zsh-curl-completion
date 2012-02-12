@@ -3,6 +3,12 @@
 local curcontext="$curcontext" state line
 typeset -A opt_args
 
+_curl_crypto_engine() {
+    local vals
+    vals=( ${${(f)"$(curl --engine list)":gs/ /}[2,$]} )
+    _describe -t outputs 'engines' vals && return 0
+}
+
 # HTTP Arguments
 arg_http=(''\
   {-0,--http1.0}'[force use of use http 1.0 instead of 1.1]' \
@@ -83,7 +89,7 @@ arg_crypto=(\
   '--crlfile[specify file with revoked certificates]:file' \
   '--delegation[set delegation policy to use with GSS/kerberos]:delegation policy:(none policy always)' \
   {-E,--cert}'[use specified client certificate]:certificate file:_files' \
-  '--engine[use selected OpenSSL crypto engine]:ssl crypto engine:{print ${${(f)"$(curl --engine list)"}[2,$]}}' \
+  '--engine[use selected OpenSSL crypto engine]:ssl crypto engine:{_curl_crypto_engine}' \
   '--egd-file[set ssl entropy gathering daemon socket]:entropy socket:_files' \
   '--cert-type[specify certificate type (PEM, DER, ENG)]:certificate type:(PEM DER ENG)' \
   '--cacert[specify certificate file to verify the peer with]:CA certificate:_files' \
