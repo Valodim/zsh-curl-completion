@@ -49,16 +49,16 @@ arg_ftp=(\
   '--ftp-ssl-ccc[use clear command channel (CCC) after authentication (FTP)]' \
   '--ftp-ssl-ccc-mode[sets the CCC mode (FTP)]:mode:(active passive)' \
   '--ftp-ssl-control[require SSL/TLS for FTP login, clear for transfer]' \
-  {-l,--list-only}'[list names only when listing directories (FTP]' \
+  {-l,--list-only}'[list names only when listing directories (FTP)]' \
   {-P,--ftp-port}'[use active mode, tell server to connect to specified address or interface (FTP]:address' \
-  '*'{-Q,--quote}'[send arbitray command to the remote server before transfer (FTP/SFTP]:command' \
+  '*'{-Q,--quote}'[send arbitray command to the remote server before transfer (FTP/SFTP)]:command' \
   )
 
 # Other Protocol arguments
 arg_other=(\
   '--mail-from[specify From: address]:address' \
   '--mail-rcpt[specify email recipient for SMTP, may be given multiple times]:address' \
-  {-t,--telnet-option}'[pass options to telnet protocol]:OPT=val' \
+  {-t,--telnet-option}'[pass options to telnet protocol]:opt=val' \
   '--tftp-blksize[set tftp BLKSIZE option]:value' \
   )
 
@@ -72,8 +72,8 @@ arg_proxy=(\
   '--proxy-digest[use http digest authentication for proxy]' \
   '--proxy-negotiate[enable GSS-Negotiate authentication for proxy]' \
   '--proxy-ntlm[enable ntlm authentication for proxy]' \
-  '--proxy1.0[use http 1.0 proxy]:_proxy10_url' \
-  {-x,--proxy}'[use specified proxy]:_proxy_url' \
+  '--proxy1.0[use http 1.0 proxy]:proxy url' \
+  {-x,--proxy}'[use specified proxy]:proxy url' \
   '--socks5-gssapi-service[change service name for socks server]:servicename' \
   '--socks5-gssapi-nec[allow unprotected exchange of protection mode negotiation]' \
   )
@@ -102,7 +102,7 @@ arg_crypto=(\
   '--pass:phrase[passphrase for ssl/ssh private key]' \
   '--ssl[try to use ssl/tls for connection, if available]' \
   '--ssl-reqd[try to use ssl/tls for connection, fail if unavailable]' \
-  '--tlsauthtype[set TLS authentication type (only SRP supported!]:authtype' \
+  '--tlsauthtype[set TLS authentication type (only SRP supported!)]:authtype' \
   '--tlsuser[set username for TLS authentication]:user' \
   '--tlspassword[set password for TLS authentication]:password' \
   )
@@ -122,7 +122,7 @@ arg_connection=(\
   {-N,--no-buffer}'[disable buffering of the output stream]' \
   '--no-keepalive[disable use of keepalive messages in TCP connections]' \
   '--raw[disable all http decoding and pass raw data]' \
-  '--resolve[provide a custom address for a specific host and port pair]:_hostportaddress' \
+  '--resolve[provide a custom address for a specific host and port pair]:host\:port\:address' \
   '--retry[specify maximum number of retries for transient errors]:num' \
   '--retry-delay[specify delay between retries]:seconds' \
   '--retry-max-time[maximum time to spend on retries]:seconds' \
@@ -143,7 +143,7 @@ arg_auth=(\
   '--netrc-optional[like --netrc, but does not make .netrc usage mandatory]' \
   '--netrc-file[like --netrc, but specify file to use]:netrc file:_files' \
   '--tr-encoding[request compressed transfer-encoding]' \
-  {-u,--user}'[specify user name and password for server authentication]:_userepassword' \
+  {-u,--user}'[specify user name and password for server authentication]:user\:password' \
   )
 
 # Input arguments
@@ -156,7 +156,7 @@ arg_input=(\
   {-r,--range}'[set range of bytes to request (HTTP/FTP/SFTP/FILE)]:range' \
   {-R,--remote-time}'[use timestamp of remote file for local file]' \
   {-T,--upload-file}'[transfer file to remote url (using PUT for HTTP)]:file to upload:_files' \
-  '--url[specify a URL to fetch (multi)]:_url' \
+  '--url[specify a URL to fetch (multi)]:url:_urls' \
   {-z,--time-cond}'[request downloaded file to be newer than date or given reference file]:date expression' \
   )
 
