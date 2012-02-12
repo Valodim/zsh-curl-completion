@@ -1,5 +1,7 @@
 #compdef curl
 
+# based on curl 7.24.0
+
 local curcontext="$curcontext" state line
 typeset -A opt_args
 
@@ -55,7 +57,7 @@ arg_ftp=(\
   '--ftp-ssl-control[require SSL/TLS for FTP login, clear for transfer]' \
   {-l,--list-only}'[list names only when listing directories (FTP)]' \
   {-P,--ftp-port}'[use active mode, tell server to connect to specified address or interface (FTP]:address' \
-  '*'{-Q,--quote}'[send arbitray command to the remote server before transfer (FTP/SFTP)]:command' \
+  '*'{-Q,--quote}'[send arbitrary command to the remote server before transfer (FTP/SFTP)]:command' \
   )
 
 # Other Protocol arguments
@@ -135,13 +137,13 @@ arg_connection=(\
   {-Y,--speed-limit}'[specify minimum speed for --speed-time]:speed' \
   )
 
-# Authentication arugments
+# Authentication arguments
 arg_auth=(\
   '--anyauth[use any authentication method, default to most secure]' \
   '--basic[use HTTP Basic authentication]' \
   '--ntlm[enable ntlm authentication]' \
   '--digest[use http digest authentication]' \
-  '--krb[use kerberos authentication]:auth:(clear safe confidental private)' \
+  '--krb[use kerberos authentication]:auth:(clear safe confidential private)' \
   '--negotiate[enable GSS-Negotiate authentication]' \
   {-n,--netrc}'[scan ~/.netrc for login data]' \
   '--netrc-optional[like --netrc, but does not make .netrc usage mandatory]' \
@@ -166,7 +168,7 @@ arg_input=(\
 
 # Output arguments
 arg_output=(\
-  '--create-dirs[create local directory hierachy as needed]' \
+  '--create-dirs[create local directory hierarchy as needed]' \
   {-D,--dump-header}'[write protocol headers to file]:dump file:_files' \
   {-o,--output}'[write to specified file instead of stdout]:output file:_files' \
   {--progress-bar,-\#}'[display progress as a simple progress bar]' \
