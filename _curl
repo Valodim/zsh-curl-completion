@@ -3,7 +3,8 @@
 local curcontext="$curcontext" state line
 typeset -A opt_args
 
-_arguments -C -s \
+# HTTP Arguments
+arg_http=(''\
   {-0,--http1.0}'[force use of use http 1.0 instead of 1.1]' \
   {-b,--cookie}'[pass data to http server as cookie]:data or file' \
   {-c,--cookie-jar}'[specify cookie file]:file name:_files' \
@@ -25,6 +26,10 @@ _arguments -C -s \
   {-O,--remote-name}'[write to filename parsed from url instead of stdout]' \
   '--post301[do not convert POST to GET after following 301 Location response (follow RFC 2616/10.3.2)]' \
   '--post302[do not convert POST to GET after following 302 Location response (follow RFC 2616/10.3.2)]' \
+  )
+
+# FTP arguments
+arg_ftp=(\
   {-a,--append}'[append to target file instead of overwriting (FTP/SFTP)]' \
   '--crlf[convert LF to CRLF in upload]' \
   '--disable-eprt[disable use of EPRT and LPRT for active FTP transfers]' \
@@ -43,10 +48,18 @@ _arguments -C -s \
   {-l,--list-only}'[list names only when listing directories (FTP]' \
   {-P,--ftp-port}'[use active mode, tell server to connect to specified address or interface (FTP]:address' \
   '*'{-Q,--quote}'[send arbitray command to the remote server before transfer (FTP/SFTP]:command' \
+  )
+
+# Other Protocol arguments
+arg_other=(\
   '--mail-from[specify From: address]:address' \
   '--mail-rcpt[specify email recipient for SMTP, may be given multiple times]:address' \
   {-t,--telnet-option}'[pass options to telnet protocol]:OPT=val' \
   '--tftp-blksize[set tftp BLKSIZE option]:value' \
+  )
+
+# Proxy arguments
+arg_proxy=(\
   '--noproxy[list of hosts to connect directly to instead of through proxy]:no-proxy-list' \
   {-p,--proxytunnel}'[tunnel non-http protocols through http proxy]' \
   {-U,--proxy-user}'[specify the user name and password to use for proxy authentication]:user:password' \
@@ -59,6 +72,10 @@ _arguments -C -s \
   {-x,--proxy}'[use specified proxy]:_proxy_url' \
   '--socks5-gssapi-service[change service name for socks server]:servicename' \
   '--socks5-gssapi-nec[allow unprotected exchange of protection mode negotiation]' \
+  )
+
+# Crypto arguments
+arg_crypto=(\
   {-1,--tlsv1}'[Forces curl to use TLS version 1 when negotiating with a remote TLS server.]' \
   {-2,--sslv2}'[Forces curl to use SSL version 2 when negotiating with a remote SSL server.]' \
   {-3,--sslv3}'[Forces curl to use SSL version 3 when negotiating with a remote SSL server.]' \
@@ -84,6 +101,10 @@ _arguments -C -s \
   '--tlsauthtype[set TLS authentication type (only SRP supported!]:authtype' \
   '--tlsuser[set username for TLS authentication]:user' \
   '--tlspassword[set password for TLS authentication]:password' \
+  )
+
+# Connection arguments
+arg_connection=(\
   {-4,--ipv4}'[prefer ipv4]' \
   {-6,--ipv6}'[prefer ipv6, if available]' \
   {-B,--use-ascii}'[use ascii mode]' \
@@ -102,15 +123,12 @@ _arguments -C -s \
   '--retry-delay[specify delay between retries]:seconds' \
   '--retry-max-time[maximum time to spend on retries]:seconds' \
   '--tcp-nodelay[turn on TCP_NODELAY option]' \
-  {-C,--continue-at}'[resume at offset ]:offset' \
-  {-g,--globoff}'[do not glob {}\[\] letters]' \
-  '--max-filesize[maximum filesize to download, fail for bigger files]:bytes' \
-  '--proto[specify allowed protocols for transfer]:protocols' \
-  '--proto-redir[specify allowed protocols for transfer after a redirect]:protocols' \
-  {-r,--range}'[set range of bytes to request (HTTP/FTP/SFTP/FILE)]:range' \
-  {-R,--remote-time}'[use timestamp of remote file for local file]' \
-  {-T,--upload-file}'[transfer file to remote url (using PUT for HTTP)]:file to upload:_files' \
-  '--url[specify a URL to fetch (multi)]:_url' \
+  {-y,--speed-time}'[specify time to abort after if download is slower than speed-limit]:time' \
+  {-Y,--speed-limit}'[specify minimum speed for --speed-time]:speed' \
+  )
+
+# Authentication arugments
+arg_auth=(\
   '--anyauth[use any authentication method, default to most secure]' \
   '--basic[use HTTP Basic authentication]' \
   '--ntlm[enable ntlm authentication]' \
@@ -122,6 +140,24 @@ _arguments -C -s \
   '--netrc-file[like --netrc, but specify file to use]:netrc file:_files' \
   '--tr-encoding[request compressed transfer-encoding]' \
   {-u,--user}'[specify user name and password for server authentication]:_userepassword' \
+  )
+
+# Input arguments
+arg_input=(\
+  {-C,--continue-at}'[resume at offset ]:offset' \
+  {-g,--globoff}'[do not glob {}\[\] letters]' \
+  '--max-filesize[maximum filesize to download, fail for bigger files]:bytes' \
+  '--proto[specify allowed protocols for transfer]:protocols' \
+  '--proto-redir[specify allowed protocols for transfer after a redirect]:protocols' \
+  {-r,--range}'[set range of bytes to request (HTTP/FTP/SFTP/FILE)]:range' \
+  {-R,--remote-time}'[use timestamp of remote file for local file]' \
+  {-T,--upload-file}'[transfer file to remote url (using PUT for HTTP)]:file to upload:_files' \
+  '--url[specify a URL to fetch (multi)]:_url' \
+  {-z,--time-cond}'[request downloaded file to be newer than date or given reference file]:date expression' \
+  )
+
+# Output arguments
+arg_output=(\
   '--create-dirs[create local directory hierachy as needed]' \
   {-D,--dump-header}'[write protocol headers to file]:dump file:_files' \
   {-o,--output}'[write to specified file instead of stdout]:output file:_files' \
@@ -139,9 +175,9 @@ _arguments -C -s \
   {-w,--write-out}'[specify message to output on successful operation]:format string' \
   '--xattr[store some file metadata in extended file attributes]' \
   {-X,--request}'[specifies request method for HTTP server]:method:(GET PUT DELETE)' \
-  {-y,--speed-time}'[specify time to abort after if download is slower than speed-limit]:time' \
-  {-Y,--speed-limit}'[specify minimum speed for --speed-time]:speed' \
-  {-z,--time-cond}'[request downloaded file to be newer than date or given reference file]:date expression' \
+  )
+
+_arguments -C -s $arg_http $arg_ftp $arg_other $arg_crypto $arg_connection $arg_auth $arg_input $arg_output \
   {-h,--help}'[print usage]' \
   {-M,--manual}'[print manual]' \
   '*'{-K,--config}'[use other config file to read arguments from]:config file:_files' \
