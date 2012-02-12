@@ -1,465 +1,177 @@
-#compdef wget
-
-local curcontext="$curcontext" state line
-typeset -A opt_args
-
-_arguments -C -s \
-
-HTTP Options
-
-  {-0,--http1.0}'[(HTTP) Forces curl to issue its requests using HTTP 1.0 instead of using its internally preferred: HTTP 1.1.]' \
-
-      #<name=data> or _files
-  {-b,--cookie }'[pass data to http server as cookie]' \
-
-  {-c,--cookie-jar}':file name[specify cookie file]' \
-
-      #<data> or @_files
-  {-d,--data}'[send specified data as HTTP POST data]' \
-
-  '--data-binary:data[post HTTP POST data without any processing]' \
-
-  '--data-urlencode:data[post HTTP POST data, with url encoding]' \
-
-  {-f,--fail}'[enable failfast behavior for server errors (HTTP)]' \
-
-  {-F,--form}':name=content[add POST form data (HTTP, TODO)]' \
-
-  {-G,--get}'[use HTTP GET even with data (-d, --data, --data-binary)]' \
-
-  {-H,--header}':header[specify an extra header]' \
-
-  '--ignore-content-length[ignore Content-Length header (HTTP]' \
-
-  {-i,--include}'[include HTTP header in the output (HTTP]' \
-
-  {-j,--junk-session-cookies}'[discard all session cookies (HTTP]' \
-
-  {-e,--referer}':ur[send url as referer]' \
-
-  {-L,--location}'[follow Location headers on http 3XX response (HTTP]' \
-
-  {--location-trusted}'[like --location, but allows sending of auth data to redirected hosts]' \
-
-  '--max-redirs:num[set maximum number of redirection followings allowed]' \
-
-  {-J,--remote-header-name}'[use Content-Disposition for output file name (HTTP]' \
-
-  {-O,--remote-name}'[write to filename parsed from url instead of stdout]' \
-
-  '--post301[do not convert POST to GET after following 301 Location response (follow RFC 2616/10.3.2)]' \
-
-  '--post302[do not convert POST to GET after following 302 Location response (follow RFC 2616/10.3.2)]' \
-
-FTP Options
-
-  {-a,--append}'[append to target file instead of overwriting (FTP/SFTP)]' \
-
-  '--crlf[convert LF to CRLF in upload]' \
-
-  '--disable-eprt[disable use of EPRT and LPRT for active FTP transfers]' \
-
-  '--disable-epsv[disable use of EPSV for passive FTP transfers]' \
-
-  '--ftp-account:data[account data (FTP)]' \
-
-  '--ftp-alternative-to-user:command[command to send when USER and PASS commands fail (FTP)]' \
-
-  '--ftp-create-dirs[create paths remotely if it does not exist]' \
-
-  {--ftp-method(multicwd,}':ocwd, singlecwd[ftp method to use to reach a file (FTP)]' \
-
-  '--ftp-pasv[use passive mode for the data connection (FTP)]' \
-
-  '--ftp-skip-pasv-ip[do not use the ip the server suggests for PASV]' \
-
-  '--form-string:name=string[like --form, but do not parse content]' \
-
-  '--ftp-pret[send PRET before PASV]' \
-
-  '--ftp-ssl-ccc[use clear command channel (CCC) after authentication (FTP)]' \
-
-  # active ,passive
-  '--ftp-ssl-ccc-mode:active, passive[sets the CCC mode (FTP)]' \
-
-  '--ftp-ssl-control[require SSL/TLS for FTP login, clear for transfer]' \
-
-  {-l,--list-only}'[list names only when listing directories (FTP]' \
-
-  {-P,--ftp-port}':address[use active mode, tell server to connect to specified address or interface (FTP]' \
-
-  {-Q,--quote}':command[send arbitray command to the remote server before transfer (FTP/SFTP]' \
-
-Other Protocol Options
-
-  '--mail-from:address[specify From: address]' \
-
-  '--mail-rcpt:address[specify email recipient for SMTP, may be given multiple times]' \
-
-  {-t,--telnet-option}':OPT=val[pass options to telnet protocol]' \
-
-  '--tftp-blksize:value[set tftp BLKSIZE option]' \
-
-Proxy Options
-
-  '--noproxy:no-proxy-list[list of hosts to connect directly to instead of through proxy]' \
-
-  {-p,--proxytunnel}'[tunnel non-http protocols through http proxy]' \
-
-  {-U,--proxy-user}':user:password[specify the user name and password to use for proxy authentication]' \
-
-  '--proxy-anyauth[use any authentication method for proxy, default to most secure]' \
-
-  '--proxy-basic[use HTTP Basic authentication for proxy]' \
-
-  '--proxy-digest[use http digest authentication for proxy]' \
-
-  '--proxy-negotiate[enable GSS-Negotiate authentication for proxy]' \
-
-  '--proxy-ntlm[enable ntlm authentication for proxy]' \
-
-  '--proxy1.0:_proxy10_url[use http 1.0 proxy]' \
-
-  {-x,--proxy}':_proxy_url[use specified proxy]' \
-
-  '--socks5-gssapi-service:servicename[change service name for socks server]' \
-
-  '--socks5-gssapi-nec[allow unprotected exchange of protection mode negotiation]' \
-
-Encryption Options
-
-  {-1,--tlsv1}'[Forces curl to use TLS version 1 when negotiating with a remote TLS server.]' \
-  {-2,--sslv2}'[Forces curl to use SSL version 2 when negotiating with a remote SSL server.]' \
-  {-3,--sslv3}'[Forces curl to use SSL version 3 when negotiating with a remote SSL server.]' \
-
-  '--ciphers:list of ciphers[specifies which cipher to use for the ssl connection]' \
-
-  '--crlfile:file[specify file with revoked certificates]' \
-# (none, policy, always)
-  '--delegation[set delegation policy to use with GSS/kerberos]' \
-
-# :password
-  {-E,--cert}':certificate[use specified client certificate]' \
-
-# --engine list
-  '--engine:_ssl_crypto_engin[use selected OpenSSL crypto engine]' \
-
-  '--egd-file:file[set ssl entropy gathering daemon socket]' \
-
-  '--cert-type:(PEM, DER or ENG, default PEM)[specify certificate type (PEM, DER, ENG)]' \
-
-  '--cacert:CA certificate[specify certificate file to verify the peer with]' \
-
-  '--capath:CA certificate directory[specify a search path for certificate files]' \
-
-  '--hostpubmd5:md5[check remote host''s public key]' \
-
-  {-k,--insecure}'[allow ssl to perform insecure ssl connections (ie, ignore certificate)]' \
-
-  '--key:key[ssl/ssh private key file name]' \
-
-  '--key-type:PEM, DER, ENG[ssl/ssh private key file type]' \
-
-  '--pubkey:key[ssh public key file]' \
-
-  '--random-file:file[set source of random data for ssl]' \
-
-  '--no-sessionid[disable caching of ssl session ids]' \
-
-  '--pass:phrase[passphrase for ssl/ssh private key]' \
-
-  '--ssl[try to use ssl/tls for connection, if available]' \
-
-  '--ssl-reqd[try to use ssl/tls for connection, fail if unavailable]' \
-
-  '--tlsauthtype:authtype[set TLS authentication type (only SRP supported!]' \
-
-  '--tlsuser:user[set username for TLS authentication]' \
-
-  '--tlspassword:password[set password for TLS authentication]' \
-
-Connection Options
-  {-4,--ipv4}'[prefer ipv4]' \
-
-  {-6,--ipv6}'[prefer ipv6, if available]' \
-
-  {-B,--use-ascii}'[use ascii mode]' \
-
-  '--compressed[request a compressed transfer]' \
-
-  '--connect-timeout:seconds[timeout for connection phase]' \
-
-  {-I,--head}'[fetch http HEAD only (HTTP/FTP/FILE]' \
-
-  '--interface:name[work on a specific interface]' \
-
-  '--keepalive-time:seconds[set time to wait before sending keepalive probes]' \
-
-  '--limit-rate:speed[specify maximum transfer rate]' \
-
-              #The  given speed is measured in bytes/second, unless a suffix is appended.  Appending 'k' or 'K' will count the
-              #number as kilobytes, 'm' or M' makes it megabytes, while 'g' or 'G' makes it gigabytes. Examples: 200K, 3m  and
-              #1G.
-
-  '--local-port:num[set preferred number or range of local ports to use]' \
-
-  {-N,--no-buffer}'[disable buffering of the output stream]' \
-
-  '--no-keepalive[disable use of keepalive messages in TCP connections]' \
-
-  '--raw[disable all http decoding and pass raw data]' \
-
-  # host:port:address
-  '--resolve:_hostportaddress[provide a custom address for a specific host and port pair]' \
-
-  '--retry:num[specify maximum number of retries for transient errors]' \
-
-  '--retry-delay:seconds[specify delay between retries]' \
-
-  '--retry-max-time:seconds[maximum time to spend on retries]' \
-
-  '--tcp-nodelay[turn on TCP_NODELAY option]' \
-
-Input Options
-
-  {-C,--continue-at}':offset[resume at offset ]' \
-
-  {-g,--globoff}'[do not glob {}[] letters]' \
-
-  '--max-filesize:bytes[maximum filesize to download, fail for bigger files]' \
-
-  '--proto:protocols[specify allowed protocols for transfer]' \
-
-  '--proto-redir:protocols[specify allowed protocols for transfer after a redirect]' \
-
-  {-r,--range}':range[set range of bytes to request (HTTP/FTP/SFTP/FILE)]' \
-
-  {-R,--remote-time}'[use timestamp of remote file for local file]' \
-
-  {-T,--upload-file}':file[transfer file to remote url (using PUT for HTTP)]' \
-
-  '--url:_url[specify a URL to fetch (multi)]' \
-
-
-Authentication
-
-  '--anyauth[use any authentication method, default to most secure]' \
-
-  '--basic[use HTTP Basic authentication]' \
-
-  '--ntlm (HTTP) [enable ntlm authentication]' \
-
-  '--digest[use http digest authentication]' \
-
-# (clear, safe, confidential, private
-  '--krb [use kerberos authentication]' \
-
-  '--negotiate[enable GSS-Negotiate authentication]' \
-
-  {-n,--netrc}'[scan ~/.netrc for login data]' \
-
-  '--netrc-optional[like --netrc, but does not make .netrc usage mandatory]' \
-
-  '--netrc-file:_files[like --netrc, but specify file to use]' \
-
-  '--tr-encoding[request compressed transfer-encoding]' \
-
-  # user:password
-  {-u,--user}':_userepassword[specify user name and password for server authentication]' \
-
-Output Options
-
-  '--create-dirs[create local directory hierachy as needed]' \
-
-  {-D,--dump-header}':file[write protocol headers to file]' \
-
-  {-o,--output}':file[write to specified file instead of stdout]' \
-
-  {--progress-bar,-#}'[display progress as a simple progress bar]' \
-
-  {-#,--progress-bar}'[Make curl display progress as a simple progress bar instead of the standard, more informational, meter.]' \
-
-  {-R,--remote-time}'[use timestamp of remote file for local file]' \
-
-  '--raw[disable all http decoding and pass raw data]' \
-
-  {-s,--silent}'[silent mode, do not show progress meter or error messages]' \
-
-  {-S,--show-error}'[show errors in silent mode]' \
-
-  '--stderr:file[redirect stderr to specified file]' \
-
-  '--trace:file[enable full trace dump of all incoming and outgoing data]' \
-
-  '--trace-ascii:file[enable full trace dump of all incoming and outgoing data, without hex data]' \
-
-  '--trace-time[prepends a time stamp to each trace or verbose line that curl displays]' \
-
-  {-v,--verbose}'[output debug info]' \
-
-  {-w,--write-out}':format[specify message to output on successful operation]' \
-
-  '--xattr[store some file metadata in extended file attributes]' \
-
-  # GET PUT DELETE
-
-  {-X,--request}'[specifies request method for HTTP server]' \
-
-  {-y,--speed-time}':time[specify time to abort after if download is slower than speed-limit]' \
-
-  {-Y,--speed-limit}':speed[specify minimum speed for --speed-time]' \
-
-  {-z,--time-cond}':date expression[request downloaded file to be newer than date or given reference file]' \
-
-Curl Options
-
-  {-h,--help}'[Usage help.]' \
-
-  {-M,--manual}'[Manual. Display the huge help text.]' \
-
-  {-K,--config}':config file[use other config file to read arguments from]' \
-
-  '--libcurl:file[output libcurl code for the operation to file]' \
-
-  {-m,--max-time}':seconds[limit total time of operation]' \
-
-  {-s,--silent}'[silent mode, do not show progress meter or error messages]' \
-
-  {-S,--show-error}'[show errors in silent mode]' \
-
-  '--stderr:file[redirect stderr to specified file]' \
-
-  '-q[do not read settings from .curlrc]' \
-
-  {-V,--version}'[Displays information about curl and the libcurl version it uses.]' \
-
-  '(- *)'{--version,-V}'[display version info]' \
-  '(- *)'{--help,-h}'[display help]' \
-  '(--background -b)'{--background,-b}'[run in background]' \
-  '(--execute -e)'{--execute=,-e+}'[execute .wgetrc command]:.wgetrc command' \
-  '(--output-file -o --append-output -a)'{--output-file=,-o+}'[specify output logfile]:log file to output:_files' \
-  '(--append-output -a --output-file -o)'{--append-output=,-a+}'[specify output logfile to append to]:log file to append:_files' \
-  '(--debug -d)'{--debug,-d}'[turn on debug output]' \
-  '(--quiet -q --verbose -v --no-verbose -nv)'{--quiet,-q}'[turn off output]' \
-  '(--quiet -q --verbose -v --no-verbose -nv)'{--verbose,-v}'[turn on verbose output]' \
-  '*-n+[turn off flags]:flags:->noflags' \
-  '(--input-file -i)'{--input-file=,-i+}'[specify input file]:file containing URLs:_files' \
-  '(--force-html -F)'{--force-html,-F}'[treat input file as html]' \
-  '(--base -B)'{--base=,-B+}'[prepend URL to relative links]:base URL:_urls' \
-  '(--tries -t)'{--tries=,-t+}'[set number of retries]:number of retries' \
-  '--retry-connrefused[retry even if connection is refused]' \
-  '(--output-document -O)'{--output-document=,-O+}'[specify file to write documents to]:output file:_files' \
-  '(--continue -c)'{--continue,-c}'[continue getting an existing file]'  \
-  '--content-disposition[honor the Content-Disposition header when choosing local file names]'  \
-  '--progress=[set progress gauge type]:gauge type:->gauge' \
-  '(--timestamping -N)'{--timestamping,-N}'[retrieve only files newer than existing]' \
-  '(--server-response -S)'{--server-response,-S}'[print server response]' \
-  "--spider[don't download anything]" \
-  '(--timeout -T)'{--timeout=,-T+}'[set all timeout values]:timeout (seconds)' \
-  '(--timeout -T)--dns-timeout=[set the DNS lookup timeout]:DNS lookup timeout (seconds)' \
-  '(--timeout -T)--connect-timeout=[set the connect timeout]:connect timeout (seconds)' \
-  '(--timeout -T)--read-timeout=[set the read timeout]:read timeout (seconds)' \
-  '(--wait,-w)'{--wait=,-w+}'[specify wait between retrievals]:time (seconds)' \
-  '(--random-wait)--waitretry=:time (seconds)' \
-  '(--waitretry)--random-wait[random wait time between retrievals]' \
-  '(--proxy -Y --no-proxy)'{--proxy=,-Y+}'[explicitly turn on proxy]' \
-  '(--proxy -Y --no-proxy)--no-proxy[explicitly turn off proxy]' \
-  '(--quota -Q)'{--quota=,-Q+}'[set retrieval quota]:number' \
-  '--bind-address=[specify address to bind to (hostname or IP)]:bind address:_bind_addresses' \
-  '--limit-rate=[specify limit to download rate]:download rate limit' \
-  '--no-dns-cache[disable caching DNS lookups]' \
-  '--restrict-file-names=[restrict chars in file names to ones OS allows]:OS:->restrict' \
-  '(-4 --inet4-only -6 --inet6-only)'{-4,--inet4-only}'[connect only to IPv4 addresses]' \
-  '(-4 --inet4-only -6 --inet6-only)'{-6,--inet6-only}'[connect only to IPv6 addresses]' \
-  '--prefer-family[connect first to addresses of specified family]:address family:(IPv6 IPv4 none)' \
-  '(--http-user --ftp-user)--user[set both ftp and http user]:user' \
-  '(--http-password --ftp-password)--password[set both ftp and http password]:password' \
-  '(--force-directories -x)'{--force-directories,-x}'[force creation of directories]' \
-  '--protocol-directories[use protocol name in directories]' \
-  '(--directory-prefix -P)'{--directory-prefix=,-P+}'[specify prefix to save files to]:prefix:_files -/' \
-  '--cut-dirs=:number:' \
-  '(--user)--http-user=:user' \
-  '(--password)--http-password=:password' \
-  '--no-cache[disallow server-cached data]' \
-  '(--html-extension -E)'{--html-extension,-E}'[save all HTML documents with a .html extension]' \
-  "--ignore-length[ignore \`Content-Length' header field]" \
-  '--header=:string' \
-  '--proxy-user=:user' \
-  '--proxy-password=:password' \
-  '--referer=:URL:_urls' \
-  '--save-headers[save http headers]' \
-  '(--user-agent -U)'{--user-agent=,-U+}'[specify user agent to identify as]:user-agent' \
-  '--no-http-keep-alive[disable HTTP keep-alive]' \
-  '--no-cookies=[turn cookies off]' \
-  '--load-cookies=[specify file to load cookies from]:cookie file:_files' \
-  '--save-cookies=[specify file to save cookies to]:cookie file:_files' \
-  '--keep-session-cookies[load and save session cookies]' \
-  '--post-data=[use the POST method with specified data]:data to send' \
-  '--post-file=[use the POST method; sending contents of a file]:file:_files' \
-  '--secure-protocol=[choose secure protocol]:protocol:(SSLv2 SSLv3 TLSv1)' \
-  "--no-check-certificate=[don't check the server certificate]" \
-  '--certificate=[specify client certificate]:client certificate file:_files' \
-  '--certificate-type=[specify client certificate type]:certificate type:(PEM DER)' \
-  '--private-key=[specify private key file]:key file:_files' \
-  '--private-key-type=[specify private key type]:key type:key type:(PEM DER)' \
-  "--ca-certificate=[specify file with bundle of CA's]:file:_files" \
-  "--ca-directory=[specify dir where hash list of CA's are stored]:directory:_directories" \
-  '--random-file[specify file with random data for seeding generator]:file:_files' \
-  '--egd-file=[specify filename of EGD socket]:file:_files' \
-  '(--user)--ftp-user=:user' \
-  '(--password)--ftp-password=:password' \
-  "--no-remove-listing[don't remove \`.listing' files]" \
-  '--no-glob[turn off FTP file name globbing]' \
-  '--no-passive-ftp' \
-  '--retr-symlinks' \
-  '--preserve-permissions[preserve remote file permissions with ftp]' \
-  '(--recursive -r)'{--recursive,-r}'[recurse subdirectories]' \
-  '(--level -l)'{--level=,-l+}'[specify maximum recursion depth]:level' \
-  '--delete-after' \
-  '(--convert-links -k)'{--convert-links,-k}'[convert links to be relative]' \
-  '(--backup-converted -K)'{--backup-converted,-K}'[backup files before conversion]' \
-  '(--mirror -m -r -N -l)'{--mirror,-m}'[mirror (-r -N -l inf -nr)]' \
-  '(--page-requisites -p)'{--page-requisites,-p}'[get all images needed to display page]' \
-  '--strict-comments[turn on strict (SGML) handling of HTML comments]' \
-  '(--accept -A)'{--accept=,-A+}'[specify accepted extensions]:extensions' \
-  '(--reject -R)'{--reject=,-R+}'[specify rejected extensions]:extensions' \
-  '(--domains -D)'{--domains=,-D+}'[specify accepted domains]:domains:_domains' \
-  '--exclude-domains=:rejected domains:_domains' \
-  '--follow-ftp' \
-  '--follow-tags=:HTML tags:' \
-  '--ignore-tags=[specify ignored HTML tags]:HTML tags' \
-  '(--span-hosts -H)'{--span-hosts,-H}'[span hosts]' \
-  '(--relative -L)'{--relative,-L}'[follow relative links only]' \
-  '(--include-directories -I)'{--include-directories=,-I+}'[include directories]:allowed directories' \
-  '(--exclude-directories -X)'{--exclude-directories=,-X+}'[exclude directories]:excluded directories' \
-  '--no-host-lookup' \
-  '--no-parent' \
-  '--no-verbose' \
-  '--no-clobber' \
-  '--no-directories' \
-  '--no-host-directories' \
-  '--htmlify=:htmlify:' \
-  '--no:no:->noflags' \
-  '*:URL:_urls' && return 0
-
-case "$state" in
-  gauge)
-    _values -S : 'progress gauge type' \
-      'dot:style:(default binary mega giga micro)' \
-      'bar:force:(force)'
-  ;;
-  noflags)
-    _values -s '' 'option' \
-      'v[non verbose]' \
-      'H[no host directories]' \
-      'd[no directories]' \
-      'c[no clobber]' \
-      'p[no parent]'
-  ;;
-  restrict)
-    _values -s , 'filename char restriction' \
-      '(windows)unix' \
-      '(unix)windows' \
-      '(unix windows)nocontrol'
-  ;;
-esac
+#compdef curl
+
+_curl() {
+
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    _arguments -C -s \
+    # HTTP Options
+      {-0,--http1.0}'[force use of use http 1.0 instead of 1.1]' \
+      {-b,--cookie }'[pass data to http server as cookie]:data or file' \
+      {-c,--cookie-jar}'[specify cookie file]:file name:_files' \
+      {-d,--data}'[send specified data as HTTP POST data]:data or file' \
+      '--data-binary[post HTTP POST data without any processing]:data' \
+      '--data-urlencode[post HTTP POST data, with url encoding]:data' \
+      {-f,--fail}'[enable failfast behavior for server errors]' \
+      '*'{-F,--form}'[add POST form data]:name=content' \
+      {-G,--get}'[use HTTP GET even with data (-d, --data, --data-binary)]' \
+      '*'{-H,--header}'[specify an extra header]:header' \
+      '--ignore-content-length[ignore Content-Length header]' \
+      {-i,--include}'[include HTTP header in the output]' \
+      {-j,--junk-session-cookies}'[discard all session cookies]' \
+      {-e,--referer}'[send url as referer]:referer url:_urls' \
+      {-L,--location}'[follow Location headers on http 3XX response]' \
+      {--location-trusted}'[like --location, but allows sending of auth data to redirected hosts]' \
+      '--max-redirs[set maximum number of redirection followings allowed]:number' \
+      {-J,--remote-header-name}'[use Content-Disposition for output file name]' \
+      {-O,--remote-name}'[write to filename parsed from url instead of stdout]' \
+      '--post301[do not convert POST to GET after following 301 Location response (follow RFC 2616/10.3.2)]' \
+      '--post302[do not convert POST to GET after following 302 Location response (follow RFC 2616/10.3.2)]' \
+    # FTP Options
+      {-a,--append}'[append to target file instead of overwriting (FTP/SFTP)]' \
+      '--crlf[convert LF to CRLF in upload]' \
+      '--disable-eprt[disable use of EPRT and LPRT for active FTP transfers]' \
+      '--disable-epsv[disable use of EPSV for passive FTP transfers]' \
+      '--ftp-account[account data (FTP)]:data' \
+      '--ftp-alternative-to-user[command to send when USER and PASS commands fail (FTP)]:command' \
+      '--ftp-create-dirs[create paths remotely if it does not exist]' \
+      {--ftp-method(multicwd,}'[ftp method to use to reach a file (FTP)]:ocwd, singlecwd' \
+      '--ftp-pasv[use passive mode for the data connection (FTP)]' \
+      '--ftp-skip-pasv-ip[do not use the ip the server suggests for PASV]' \
+      '--form-string[like --form, but do not parse content]:name=string' \
+      '--ftp-pret[send PRET before PASV]' \
+      '--ftp-ssl-ccc[use clear command channel (CCC) after authentication (FTP)]' \
+      '--ftp-ssl-ccc-mode[sets the CCC mode (FTP)]:mode:(active passive)' \
+      '--ftp-ssl-control[require SSL/TLS for FTP login, clear for transfer]' \
+      {-l,--list-only}'[list names only when listing directories (FTP]' \
+      {-P,--ftp-port}'[use active mode, tell server to connect to specified address or interface (FTP]:address' \
+      '*'{-Q,--quote}'[send arbitray command to the remote server before transfer (FTP/SFTP]:command' \
+    # Other Protocol Options
+      '--mail-from[specify From: address]:address' \
+      '--mail-rcpt[specify email recipient for SMTP, may be given multiple times]:address' \
+      {-t,--telnet-option}'[pass options to telnet protocol]:OPT=val' \
+      '--tftp-blksize[set tftp BLKSIZE option]:value' \
+    # Proxy Options
+      '--noproxy[list of hosts to connect directly to instead of through proxy]:no-proxy-list' \
+      {-p,--proxytunnel}'[tunnel non-http protocols through http proxy]' \
+      {-U,--proxy-user}'[specify the user name and password to use for proxy authentication]:user:password' \
+      '--proxy-anyauth[use any authentication method for proxy, default to most secure]' \
+      '--proxy-basic[use HTTP Basic authentication for proxy]' \
+      '--proxy-digest[use http digest authentication for proxy]' \
+      '--proxy-negotiate[enable GSS-Negotiate authentication for proxy]' \
+      '--proxy-ntlm[enable ntlm authentication for proxy]' \
+      '--proxy1.0[use http 1.0 proxy]:_proxy10_url' \
+      {-x,--proxy}'[use specified proxy]:_proxy_url' \
+      '--socks5-gssapi-service[change service name for socks server]:servicename' \
+      '--socks5-gssapi-nec[allow unprotected exchange of protection mode negotiation]' \
+    # Encryption Options
+      {-1,--tlsv1}'[Forces curl to use TLS version 1 when negotiating with a remote TLS server.]' \
+      {-2,--sslv2}'[Forces curl to use SSL version 2 when negotiating with a remote SSL server.]' \
+      {-3,--sslv3}'[Forces curl to use SSL version 3 when negotiating with a remote SSL server.]' \
+      '--ciphers[specifies which cipher to use for the ssl connection]:list of ciphers' \
+      '--crlfile[specify file with revoked certificates]:file' \
+      '--delegation[set delegation policy to use with GSS/kerberos]:delegation policy:(none policy always)' \
+      {-E,--cert}'[use specified client certificate]:certificate file:_files' \
+      '--engine[use selected OpenSSL crypto engine]:ssl crypto engine:{${${(f)"$(curl --engine list)"}[2,$]}}' \
+      '--egd-file[set ssl entropy gathering daemon socket]:entropy socket:_files' \
+      '--cert-type[specify certificate type (PEM, DER, ENG)]:certificate type:(PEM DER ENG)' \
+      '--cacert[specify certificate file to verify the peer with]:CA certificate:_files' \
+      '--capath[specify a search path for certificate files]:CA certificate directory:_directories' \
+      '--hostpubmd5[check remote host''s public key]:md5 hash' \
+      {-k,--insecure}'[allow ssl to perform insecure ssl connections (ie, ignore certificate)]' \
+      '--key[ssl/ssh private key file name]:key file:_files' \
+      '--key-type[ssl/ssh private key file type]:file type:(PEM DER ENG)' \
+      '--pubkey[ssh public key file]:pubkey file:_files' \
+      '--random-file[set source of random data for ssl]:random source:_files' \
+      '--no-sessionid[disable caching of ssl session ids]' \
+      '--pass:phrase[passphrase for ssl/ssh private key]' \
+      '--ssl[try to use ssl/tls for connection, if available]' \
+      '--ssl-reqd[try to use ssl/tls for connection, fail if unavailable]' \
+      '--tlsauthtype[set TLS authentication type (only SRP supported!]:authtype' \
+      '--tlsuser[set username for TLS authentication]:user' \
+      '--tlspassword[set password for TLS authentication]:password' \
+    # Connection Options
+      {-4,--ipv4}'[prefer ipv4]' \
+      {-6,--ipv6}'[prefer ipv6, if available]' \
+      {-B,--use-ascii}'[use ascii mode]' \
+      '--compressed[request a compressed transfer]' \
+      '--connect-timeout[timeout for connection phase]:seconds' \
+      {-I,--head}'[fetch http HEAD only (HTTP/FTP/FILE]' \
+      '--interface[work on a specific interface]:name' \
+      '--keepalive-time[set time to wait before sending keepalive probes]:seconds' \
+      '--limit-rate[specify maximum transfer rate]:speed' \
+    #The  given speed is measured in bytes/second, unless a suffix is appended.  Appending 'k' or 'K' will count the
+    #number as kilobytes, 'm' or M' makes it megabytes, while 'g' or 'G' makes it gigabytes. Examples: 200K, 3m  and
+    #1G.
+      '--local-port[set preferred number or range of local ports to use]:num' \
+      {-N,--no-buffer}'[disable buffering of the output stream]' \
+      '--no-keepalive[disable use of keepalive messages in TCP connections]' \
+      '--raw[disable all http decoding and pass raw data]' \
+      # host:port:address
+      '--resolve[provide a custom address for a specific host and port pair]:_hostportaddress' \
+      '--retry[specify maximum number of retries for transient errors]:num' \
+      '--retry-delay[specify delay between retries]:seconds' \
+      '--retry-max-time[maximum time to spend on retries]:seconds' \
+      '--tcp-nodelay[turn on TCP_NODELAY option]' \
+    # Input Options
+      {-C,--continue-at}'[resume at offset ]:offset' \
+      {-g,--globoff}'[do not glob {}[] letters]' \
+      '--max-filesize[maximum filesize to download, fail for bigger files]:bytes' \
+      '--proto[specify allowed protocols for transfer]:protocols' \
+      '--proto-redir[specify allowed protocols for transfer after a redirect]:protocols' \
+      {-r,--range}'[set range of bytes to request (HTTP/FTP/SFTP/FILE)]:range' \
+      {-R,--remote-time}'[use timestamp of remote file for local file]' \
+      {-T,--upload-file}'[transfer file to remote url (using PUT for HTTP)]:file to upload:_files' \
+      '--url[specify a URL to fetch (multi)]:_url' \
+    # Authentication
+      '--anyauth[use any authentication method, default to most secure]' \
+      '--basic[use HTTP Basic authentication]' \
+      '--ntlm[enable ntlm authentication]' \
+      '--digest[use http digest authentication]' \
+    # (clear, safe, confidential, private
+      '--krb[use kerberos authentication]' \
+      '--negotiate[enable GSS-Negotiate authentication]' \
+      {-n,--netrc}'[scan ~/.netrc for login data]' \
+      '--netrc-optional[like --netrc, but does not make .netrc usage mandatory]' \
+      '--netrc-file[like --netrc, but specify file to use]:netrc file:_files' \
+      '--tr-encoding[request compressed transfer-encoding]' \
+      # user:password
+      {-u,--user}'[specify user name and password for server authentication]:_userepassword' \
+    # Output Options
+      '--create-dirs[create local directory hierachy as needed]' \
+      {-D,--dump-header}'[write protocol headers to file]:dump file:_files' \
+      {-o,--output}'[write to specified file instead of stdout]:output file:_files' \
+      {--progress-bar,-#}'[display progress as a simple progress bar]' \
+      {-#,--progress-bar}'[Make curl display progress as a simple progress bar instead of the standard, more informational, meter.]' \
+      {-R,--remote-time}'[use timestamp of remote file for local file]' \
+      '--raw[disable all http decoding and pass raw data]' \
+      {-s,--silent}'[silent mode, do not show progress meter or error messages]' \
+      {-S,--show-error}'[show errors in silent mode]' \
+      '--stderr[redirect stderr to specified file]:output file:_files' \
+      '--trace[enable full trace dump of all incoming and outgoing data]:trace file:_files' \
+      '--trace-ascii[enable full trace dump of all incoming and outgoing data, without hex data]:trace file:_files' \
+      '--trace-time[prepends a time stamp to each trace or verbose line that curl displays]' \
+      {-v,--verbose}'[output debug info]' \
+      {-w,--write-out}'[specify message to output on successful operation]:format string' \
+      '--xattr[store some file metadata in extended file attributes]' \
+      {-X,--request}'[specifies request method for HTTP server]:method:(GET PUT DELETE)' \
+      {-y,--speed-time}'[specify time to abort after if download is slower than speed-limit]:time' \
+      {-Y,--speed-limit}'[specify minimum speed for --speed-time]:speed' \
+      {-z,--time-cond}'[request downloaded file to be newer than date or given reference file]:date expression' \
+    # Curl Options
+      {-h,--help}'[Usage help.]' \
+      {-M,--manual}'[Manual. Display the huge help text.]' \
+      '*'{-K,--config}'[use other config file to read arguments from]:config file:_files' \
+      '--libcurl[output libcurl code for the operation to file]:output file:_files' \
+      {-m,--max-time}'[limit total time of operation]:seconds' \
+      {-s,--silent}'[silent mode, do not show progress meter or error messages]' \
+      {-S,--show-error}'[show errors in silent mode]' \
+      '--stderr[redirect stderr to specified file]:output file:_files' \
+      '-q[do not read settings from .curlrc]' \
+      {-V,--version}'[Displays information about curl and the libcurl version it uses.]' \
+      '*:URL:_urls' && return 0
+
+}
+
+_curl "$@"
