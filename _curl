@@ -1,9 +1,5 @@
 #compdef curl
 
-# This probably needs to be loaded explicitly, because _urls is marked to
-# complete curl by default, so overloading a function won't do.
-# compdef _curl curl
-
 local curcontext="$curcontext" state line
 typeset -A opt_args
 

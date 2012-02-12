@@ -1,7 +1,2 @@
 As the name says, this is a zsh completion for curl. it is fairly basic, but
 all the options are there.
-
-Since zsh already has a compdef for curl, in addition to putting the _curl file
-somewhere into your fpath, you will have to map it explicitly:
-
-compdef _curl curl
