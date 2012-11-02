@@ -184,7 +184,7 @@ arg_output=(\
   {-v,--verbose}'[output debug info]' \
   {-w,--write-out}'[specify message to output on successful operation]:format string' \
   '--xattr[store some file metadata in extended file attributes]' \
-  {-X,--request}'[specifies request method for HTTP server]:method:(GET PUT DELETE)' \
+  {-X,--request}'[specifies request method for HTTP server]:method:(GET POST PUT DELETE HEAD OPTIONS TRACE CONNECT PATCH LINK UNLINK)' \
   )
 
 _arguments -C -s $arg_http $arg_ftp $arg_other $arg_crypto $arg_connection $arg_auth $arg_input $arg_output \
