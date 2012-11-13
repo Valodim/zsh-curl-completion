@@ -11,6 +11,28 @@ _curl_crypto_engine() {
     _describe -t outputs 'engines' vals && return 0
 }
 
+_curl_post_data() {
+
+    # don't do anything further if this is raw content
+    compset -P '=' && _message 'raw content' && return 0
+
+    # complete filename or stdin for @ syntax
+    compset -P '*@' && {
+        local expl
+        _description files expl stdin
+        compadd "$expl[@]" - "-"
+        _files
+        return 0
+    }
+
+    # got a name already? expecting data.
+    compset -P '*=' && _message 'data value' && return 0
+
+    # otherwise, name (or @ or =) should be specified
+    _message 'data name' && return 0
+
+}
+
 local arg_http arg_ftp arg_other arg_proxy arg_crypto arg_connection arg_auth arg_input arg_output
 
 # HTTP Arguments
@@ -18,9 +40,9 @@ arg_http=(''\
   {-0,--http1.0}'[force use of use http 1.0 instead of 1.1]' \
   {-b,--cookie}'[pass data to http server as cookie]:data or file' \
   {-c,--cookie-jar}'[specify cookie file]:file name:_files' \
-  {-d,--data}'[send specified data as HTTP POST data]:data or file' \
-  '--data-binary[post HTTP POST data without any processing]:data' \
-  '--data-urlencode[post HTTP POST data, with url encoding]:data' \
+  {-d,--data}'[send specified data as HTTP POST data]:data:{_curl_post_data}' \
+  '--data-binary[post HTTP POST data without any processing]:data:{_curl_post_data}' \
+  '--data-urlencode[post HTTP POST data, with url encoding]:data:{_curl_post_data}' \
   {-f,--fail}'[enable failfast behavior for server errors]' \
   '*'{-F,--form}'[add POST form data]:name=content' \
   {-G,--get}'[use HTTP GET even with data (-d, --data, --data-binary)]' \
